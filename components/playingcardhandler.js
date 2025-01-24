@@ -1,4 +1,4 @@
-const suits = ["H", "S", "C", "D"];
+const suits = ["H", "S", "D", "C"];
 
 const ranks = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 
@@ -17,6 +17,8 @@ export function GenerateDeck() {
                 suit: suit,
                 rank: rank,
                 value: valueNo,
+                color: suit == 'H' || suit == 'D' ? '#8B0000' :  '#000',
+                symbol: suit == 'H' ? '♥' : suit == 'D' ? "♦" : suit == 'S' ? "♠" : "♣",
                 key: `${suit}${rank}`
             };
             cards.push(card);

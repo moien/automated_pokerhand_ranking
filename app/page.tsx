@@ -5,23 +5,33 @@ import React, { useState, useEffect } from 'react'
 
 
 
+const css = `
+    .hand-container {
+    margin-bottom: 4rem;
+    }
+    .card-container  {
+	    display: inline-block; width: 6rem; font-size: 3rem; background: #fff; color: #000; border: 1px solid; padding: 0rem 1.2rem 3rem 0.2rem; border-radius: 8px;"
+    }
+      
+`
 
 export default function Home() {
+  
+  var statusText = '';
   const [data, setData] = useState(null);
   const handleGenerateHands = async () => {
-    console.log("data from server")
-
+    statusText = 'Loading...';
     const response = await fetch('api/cards/draw-hands');
 
     const hands = await response.json();
-    console.log('DATA: ', hands);
+    console.log('draw-hands: ', hands);
     setData(hands);
-
-
+    statusText = '';
   }
 
-  return (
+  return (    
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <style>{css}</style>
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <h3>Poker hands</h3>
         <small><i>by Magnus</i></small>
@@ -31,13 +41,15 @@ export default function Home() {
         <div key="hand-container">
           {data ?
             data.map((hand) => (
-              <ul key={hand[0].key} className="inline-block row-start-2 mr-4">
+              <ul key={hand[0].key} className="block hand-container">
                 {hand.map((card) => (
-                  <li key={card.key}>{card.suit}{card.rank}</li>
+                  <li key={card.key} className="inline mr-2 card-container">
+                    <span style={{color: card.color}}>{card.symbol}</span>{card.rank}
+                    </li>
                 ))}
               </ul>
             ))
-            : 'No hands generated yet.'
+            : statusText
           }
         </div>
       </main>
