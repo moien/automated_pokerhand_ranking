@@ -16,48 +16,7 @@ export default function Home() {
   var statusText = '';
   const [data, setData] = useState(null);
 
-  var testHand = [
-    {
-      suit: 'C',
-      rank: '10',
-      value: 9,
-      color: '#000',
-      symbol: '♣',
-      key: 'C10'
-    },
-    {
-      suit: 'S',
-      rank: '7',
-      value: 6,
-      color: '#000',
-      symbol: '♠',
-      key: 'S7'
-    },
-    {
-      suit: 'H',
-      rank: '7',
-      value: 6,
-      color: '#8B0000',
-      symbol: '♥',
-      key: 'H7'
-    },
-    {
-      suit: 'H',
-      rank: '6',
-      value: 5,
-      color: '#8B0000',
-      symbol: '♥',
-      key: 'H6'
-    },
-    {
-      suit: 'D',
-      rank: '7',
-      value: 6,
-      color: '#8B0000',
-      symbol: '♦',
-      key: 'D7'
-    }
-  ]
+
 
   const handleGenerateHands = async () => {
     statusText = 'Loading...';
@@ -77,7 +36,8 @@ export default function Home() {
       body: JSON.stringify(hands)
     });
     const responseBody = await response.json();
-    console.log('rank-hands: ', responseBody);
+    //console.log('rank-hands: ', responseBody);
+    return responseBody;
   }
 
   const rankHands = async () => {
@@ -92,9 +52,24 @@ export default function Home() {
     // console.log('rank-hands: ', ranking);
     //setData(hands);
   }
+  const testMethod = async () => {
+    let testDatA = [];
+    var royalStraightFlush = [{ suit: 'S', rank: 'A', value: 13 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'S', rank: 'Q', value: 11 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'S', rank: '10', value: 9 }];
+    var straightFlush = [{ suit: 'S', rank: '9', value: 8 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'S', rank: 'Q', value: 11 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'S', rank: '10', value: 9 }];
+    var flush = [{ suit: 'S', rank: '5', value: 4 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'S', rank: 'Q', value: 11 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'S', rank: '10', value: 9 }];
+    var straight = [{ suit: 'H', rank: '9', value: 8 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'S', rank: 'Q', value: 11 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'S', rank: '10', value: 9 }];
+    var straight2 = [{ suit: 'H', rank: 'A', value: 13 }, { suit: 'S', rank: '2', value: 1 }, { suit: 'S', rank: '3', value: 2 }, { suit: 'S', rank: '4', value: 3 }, { suit: 'S', rank: '5', value: 4 }];
+    var highCard = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'S', rank: '2', value: 1 }, { suit: 'S', rank: '3', value: 2 }, { suit: 'S', rank: '4', value: 3 }, { suit: 'S', rank: '5', value: 4 }];
 
-  //let testResult = await rankHand(testHand)
+     console.log('royalStraightFlush: ', await rankHand(new Array(1).fill().map(u => (royalStraightFlush))));
+     console.log('straightFlush: ', await rankHand(new Array(1).fill().map(u => (straightFlush))));
+     console.log('FLUSH: ', await rankHand(new Array(1).fill().map(u => (flush))));
+    // console.log('FLUSH: ', await rankHand(new Array(1).fill().map(u => (flush))));
+    console.log('STRAIGHT: ', await rankHand(new Array(1).fill().map(u => (straight))));
+    //console.log('STRAIGHT 2: ', await rankHand(new Array(1).fill().map(u => (straight2))));
 
+  }
+  testMethod();
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <style>{css}</style>

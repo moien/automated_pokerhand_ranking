@@ -1,6 +1,8 @@
+import { off } from "process";
+
 const suits = ["H", "S", "D", "C"];
 
-const ranks = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
 
 var handRankings = ['Royal Flush', 'Straight Flush', 'Four of a Kind', 'Full House', 'Flush', 'Straight', 'Three of a Kind', 'Two Pair', 'One Pair'];
 
@@ -56,13 +58,52 @@ export function GenerateHandFromDeck(deck) {
 
 export function RankHands(hand) {
 
-    
-    hand.sort((a, b) => a.value - b.value)
-    //return whichHand();
+    if (!hand)
+        return null;
 
-    console.log('Ranking hand:', hand);
+    hand.sort((a, b) => b.value - a.value)
+    //return whichHand();
+    //console.log('hand::::::::', hand)
+    console.log('HIGHEST: ' + hand[0].value)  ;
+    const handHasSameSuite =
+        hand.every(card => card.suit == hand[0].suit);
+
+    let handHasStraight = false;
+    for (let index = 0; index < 5; index++) {
+        const card = hand[index];
+        if (index < 4) {
+          //  console.log('       ' + card.value - 1  + ' expects: ' + hand[index + 1].value )  ;
+            if (hand[index + 1].value === card.value - 1) {
+                handHasStraight = true;
+            }
+            else { handHasStraight = false; }
+        }
+    }
+
+    let handHasTrips = false;
+    let handHasPair = false;
+    handHasTrips = hand.filter(hand.some(card => card.value)).length === 3;
+    // for (let index = hand.length-1; index >= 0; index--) {
+    //     const card = hand[index];
+    //     //console.log('       ' + card.value - 1  + ' expects: ' + hand[index - 1].value )  ;
+    //     if(index - 1 >= 0 && card.value + 1 === hand[index - 1].value) {
+    //         handHasStraight = true;
+    //     }
+    //     else{
+    //         handHasStraight = false;
+    //     }
+    // }
     
-    return handRankings[0];
+    if (handHasSameSuite) {
+        return handHasStraight ? hand[0].value === 13 ? 'Royal Straight flush' : 'Straight flush' : 'Flush';
+    } else if (handHasStraight) {
+        return "Straight";
+    }
+    else if (handHasStraight) {
+        return "Straight";
+    }
+    //console.log('Ranking hand:', handHasSameSuite);
+    return 'High card ' + ranks[hand[0].value];
 }
 
 // function sorted() {

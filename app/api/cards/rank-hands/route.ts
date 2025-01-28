@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 
   for (let index = 0; index < hands.length; index++) {
     const hand = hands[index];
-    const handRanking = RankHands(hand);
+    const handRanking = await RankHands(hand);
     result.push(handRanking)
   }
 
