@@ -80,9 +80,13 @@ export function RankHands(hand) {
         }
     }
 
-    let handHasTrips = false;
+    //peoples.filter(p => p.age > 30).map(p => p.name).sort((p1, p2) => p1 > p2 ? 1 : -1);
+    let fullHouse = false;
     let handHasPair = false;
-    handHasTrips = hand.filter(hand.some(card => card.value)).length === 3;
+    
+    fullHouse = hand[0].value === hand[1].value === hand[2].value && hand[2].value != hand[3].value && hand[3].value === hand[4].value ||
+    hand[0].value === hand[1].value && hand[1].value != hand[2].value && hand[2].value === hand[3].value === hand[4].value;
+    
     // for (let index = hand.length-1; index >= 0; index--) {
     //     const card = hand[index];
     //     //console.log('       ' + card.value - 1  + ' expects: ' + hand[index - 1].value )  ;
@@ -102,6 +106,10 @@ export function RankHands(hand) {
     else if (handHasStraight) {
         return "Straight";
     }
+    else if (fullHouse) {
+        return "FullHouse";
+    }
+    
     //console.log('Ranking hand:', handHasSameSuite);
     return 'High card ' + ranks[hand[0].value];
 }

@@ -59,6 +59,7 @@ export default function Home() {
     var flush = [{ suit: 'S', rank: '5', value: 4 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'S', rank: 'Q', value: 11 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'S', rank: '10', value: 9 }];
     var straight = [{ suit: 'H', rank: '9', value: 8 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'S', rank: 'Q', value: 11 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'S', rank: '10', value: 9 }];
     var straight2 = [{ suit: 'H', rank: 'A', value: 13 }, { suit: 'S', rank: '2', value: 1 }, { suit: 'S', rank: '3', value: 2 }, { suit: 'S', rank: '4', value: 3 }, { suit: 'S', rank: '5', value: 4 }];
+    var fullHouse= [{ suit: 'H', rank: '5', value: 4 }, { suit: 'S', rank: '5', value: 4 }, { suit: 'D', rank: '5', value: 4 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12}];
     var highCard = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'S', rank: '2', value: 1 }, { suit: 'S', rank: '3', value: 2 }, { suit: 'S', rank: '4', value: 3 }, { suit: 'S', rank: '5', value: 4 }];
 
      console.log('royalStraightFlush: ', await rankHand(new Array(1).fill().map(u => (royalStraightFlush))));
@@ -66,6 +67,7 @@ export default function Home() {
      console.log('FLUSH: ', await rankHand(new Array(1).fill().map(u => (flush))));
     // console.log('FLUSH: ', await rankHand(new Array(1).fill().map(u => (flush))));
     console.log('STRAIGHT: ', await rankHand(new Array(1).fill().map(u => (straight))));
+    console.log('fullHouse: ', await rankHand(new Array(1).fill().map(u => (fullHouse))));
     //console.log('STRAIGHT 2: ', await rankHand(new Array(1).fill().map(u => (straight2))));
 
   }
