@@ -130,8 +130,14 @@ export function RankHands(hand) {
         let threes =  Object.keys(equalCards).find(key => equalCards[key] === 3);
         let pair = Object.keys(equalCards).find(key => equalCards[key] === 2);        
         return `Full house (${rankTexts[threes]} over ${rankTexts[pair]})`;
-    }
-    else {
+    }    
+    else { 
+
+        let pairs = Object.keys(equalCards).filter(key => equalCards[key] === 2);    
+        if(pairs.length === 2) {
+            return `Two pair (${rankTexts[pairs[0]]} and ${rankTexts[pairs[1]]} )`;
+        }
+
         for (const [key, value] of Object.entries(equalCards).sort((a, b) => b[0] - a[0])) {
             if (value === 4) { return `Flush (${hand[0].rank} high)` }
             if (value === 3) { return `Three of a kind (${rankTexts[key]})`; }

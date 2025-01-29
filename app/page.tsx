@@ -84,6 +84,7 @@ export default function Home() {
     var fullHouse2 = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'S', rank: '5', value: 4 }, { suit: 'D', rank: 'K', value: 12 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
     var fourOfAKind = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'H', rank: 'K', value: 12 }, { suit: 'D', rank: 'K', value: 12 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
     var trips = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'H', rank: '3', value: 2 }, { suit: 'D', rank: 'K', value: 12 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
+    var twoPair = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'H', rank: '5', value: 4 }, { suit: 'D', rank: '6', value: 5 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'C', rank: 'J', value: 10 }];
     var pair = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'H', rank: 'J', value: 10 }, { suit: 'D', rank: '6', value: 5 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
     var highCard = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'S', rank: '2', value: 1 }, { suit: 'S', rank: '3', value: 2 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'S', rank: '9', value: 8 }];
 
@@ -97,12 +98,13 @@ export default function Home() {
     console.log('fullHouse2: ', await rankHand(new Array(1).fill().map(u => (fullHouse2))));
     console.log('fourOfAKind: ', await rankHand(new Array(1).fill().map(u => (fourOfAKind))));
     console.log('trips: ', await rankHand(new Array(1).fill().map(u => (trips))));
+    console.log('twoPair: ', await rankHand(new Array(1).fill().map(u => (twoPair))));
     console.log('pair: ', await rankHand(new Array(1).fill().map(u => (pair))));
     console.log('highCard: ', await rankHand(new Array(1).fill().map(u => (highCard))));
     //console.log('STRAIGHT 2: ', await rankHand(new Array(1).fill().map(u => (straight2))));
 
   }
-  //testMethod();
+  testMethod();
   //testMethod();
   return (
     <div className="align-top items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
