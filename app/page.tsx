@@ -62,6 +62,12 @@ export default function Home() {
       //data.forEach((hand, index) => hand.ranking == handRankings[index]);
       //setData(data);
       console.log('handRankings:', handRankings);
+      var ids = data.map(hand => hand.id);
+
+      const handRankingsExtended = handRankings.map((rank, index) => ({ ...rank,
+        totalRankValue: data[index].value
+      }));
+
       setRanking(handRankings);
     }
     // const response = await fetch('api/cards/rank-hands');
@@ -133,7 +139,7 @@ export default function Home() {
               <div key={hand[0].key}>
                 <div className='inline-block mr-4 font-bold size-32 align-top '>
                   <h3 className=''>Hand {handIndex + 1}</h3>
-                  <p className='text-[#c16512]'>{rankings ? (<span key={hand[0].key + handIndex}> {rankings[handIndex]} </span>) : ''}</p>
+                  <p className='text-[#c16512]'>{rankings ? (<span key={hand[0].key + handIndex}> {rankings[handIndex]['handRanking'].text} </span>) : ''}</p>
                 </div>
                 <ul className="inline-block hand-container ">
                   {hand.map((card) => (

@@ -21,7 +21,14 @@ export async function POST(request: Request) {
   for (let index = 0; index < hands.length; index++) {
     const hand = hands[index];
     const handRanking = await RankHands(hand);
-    result.push(handRanking)
+    const totalCardsValue = hand.map(card => (card.value).toString()).join('');
+    const handRankingRank = handRanking.rank.toString();
+    let floatParseText = handRankingRank + totalCardsValue;
+    let parsedTotalValue = parseInt(floatParseText);
+    console.log('handRankingRank',floatParseText);
+    result.push({handRanking, parsedTotalValue });
+
+  
   }
 
 

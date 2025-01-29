@@ -87,7 +87,7 @@ export function RankHands(hand) {
     }
     if (!handHasStraight) {
         let cardString = '';
-        hand.map((x) => cardString += `${x.value} `);        
+        hand.map((x) => cardString += `${x.value} `);
         if (cardString == '13 4 3 2 1 ') {
             handHasStraight = true;
         }
@@ -122,129 +122,35 @@ export function RankHands(hand) {
 
 
     if (handHasSameSuite) {
-        return handHasStraight ? hand[0].value === 13 ? 'Royal Straight flush' : `Straight flush (${hand[0].rank} high)` : `Flush (${hand[0].rank} high)`;
+        return handHasStraight ? hand[0].value === 13 ? { text: 'Royal Straight flush', rank: 10 } : { text: `Straight flush (${hand[0].rank} high)`, rank: 9 } : { text: `Flush (${hand[0].rank} high)`, rank: 6 };
     } else if (handHasStraight) {
-        return hand[4].value == 1 ? `Straight (${hand[1].rank} high)` : `Straight (${hand[0].rank} high)`;
+        return hand[4].value == 1 ? { text: `Straight (${hand[1].rank} high)`, rank: 5 } : { text: `Straight (${hand[0].rank} high)`, rank: 5 };
     }
-    else if (fullHouse) {        
-        let threes =  Object.keys(equalCards).find(key => equalCards[key] === 3);
-        let pair = Object.keys(equalCards).find(key => equalCards[key] === 2);        
-        return `Full house (${rankTexts[threes]} over ${rankTexts[pair]})`;
-    }    
-    else { 
+    else if (fullHouse) {
+        let threes = Object.keys(equalCards).find(key => equalCards[key] === 3);
+        let pair = Object.keys(equalCards).find(key => equalCards[key] === 2);
+        return { text: `Full house (${rankTexts[threes]} over ${rankTexts[pair]})`, rank: 7 };
+    }
+    else {
 
-        let pairs = Object.keys(equalCards).filter(key => equalCards[key] === 2);    
-        if(pairs.length === 2) {
-            return `Two pair (${rankTexts[pairs[0]]} and ${rankTexts[pairs[1]]} )`;
+        let pairs = Object.keys(equalCards).filter(key => equalCards[key] === 2);
+        if (pairs.length === 2) {
+            return { text: `Two pair (${rankTexts[pairs[0]]} and ${rankTexts[pairs[1]]} )`, rank: 3 };
         }
 
         for (const [key, value] of Object.entries(equalCards).sort((a, b) => b[0] - a[0])) {
-            if (value === 4) { return `Flush (${hand[0].rank} high)` }
-            if (value === 3) { return `Three of a kind (${rankTexts[key]})`; }
-            if (value === 2) { return `Pair of ${rankTexts[key]}`; }
+            if (value === 4) { return { text: `Four of a kind (${rankTexts[key]})`, rank: 8 }; }
+            if (value === 3) { return { text: `Three of a kind (${rankTexts[key]})`, rank: 4 }; }
+            if (value === 2) {
+                return { text: `Pair of ${rankTexts[key]}`, rank: 2 }
+            }
         }
-    }
 
-    //console.log('Ranking hand:', handHasSameSuite);
-    return `High card (${hand[0].rank})`;
+        //console.log('Ranking hand:', handHasSameSuite);
+        return { text: `High card (${hand[0].rank})`, rank: 1 };
+    }
 }
 
-// function sorted() {
-//     let sortedHand = [];
-//     for (let i = 0; i < ranks.length; i++) {
-//         for (let j = 0; j < arrayHandOne.length; j++) {
-//             if (ranks[i] === arrayHandOne[j].charAt(0)) {
-//                 sortedHand.push(arrayHandOne[j]);
-//             }
-//         }
-//     }
-//     return sortedHand;
-// }
 
-// console.log(sorted());
-
-// let sortedHandOne = sorted(arrayHandOne);
-// //let sortedHandTwo = sortedHand(arrayHandTwo);
-// console.log(sortedHandOne);
-// function suitAndRank(sortedHandOne) {
-//     console.log(sorted);
-//     for (let i = 0; i < sortedHandOne.length; i++) {
-//         let sted = sortedHandOne;
-//         rankArray.push(sted[i].charAt(0));
-//         suitArray.push(sted[i].charAt(1));
-//     }
-// }
-
-// suitAndRank(sortedHandOne);
-
-// console.log(rankArray, suitArray);
-
-// function countSuites(suitArray) {
-//     let suitCount = {};
-//     suitArray.forEach(function (x) {
-//         suitCount[x] = (suitCount[x] || 0) + 1;
-//     });
-//     return suitCount;
-// }
-
-// function countRanks(rankArray) {
-//     let rankCount = {};
-//     rankArray.forEach(function (x) {
-//         rankCount[x] = (rankCount[x] || 0) + 1;
-//     });
-//     return rankCount;
-// }
-
-// function isFlush() {
-//     let cS = countSuites(suitArray);
-//     if (Object.keys(cS).find(key => cS[key] === 5)) {
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
-
-// function isStraight() {
-//     let index = ranks.indexOf(rankArray[0]);
-//     let ref = ranks.slice(index, index + 5).join("");
-//     let section = rankArray.slice(0).join("");
-//     if (section === "10JQKA" && section === ref) {
-//         return "ROYALSTRAIGHT";
-//     } else if (section === "A2345" || section === ref) {
-//         return "STRAIGHT";
-//     } else {
-//         return "FALSE";
-//     }
-// }
-
-// function pairs() {
-//     let rS = countRanks(rankArray);
-//     return Object.keys(rS).filter(key => rS[key] === 2).length;
-// }
-
-// function whichHand() {
-//     let rS = countRanks(rankArray);
-//     if (isFlush() === true && isStraight() === "ROYALSTRAIGHT") {
-//         console.log("Royal Flush");
-//     } else if (isFlush() === true && isStraight() === "STRAIGHT") {
-//         console.log("Straight Flush");
-//     } else if (Object.keys(rS).find(key => rS[key] === 4)) {
-//         console.log("Four of a Kind");
-//     } else if (Object.keys(rS).find(key => rS[key] === 3) && pairs() === 1) {
-//         console.log("Full House");
-//     } else if (isFlush() /*First issue*/ === true) {
-//         console.log("Flush");
-//     } else if (isStraight() /*Second issue*/ === "STRAIGHT") {
-//         console.log("Straight");
-//     } else if (Object.keys(rS).find(key => rS[key] === 3)) {
-//         console.log("Three of a Kind");
-//     } else if (pairs() === 2) {
-//         console.log("Two Pair");
-//     } else if (pairs() === 1) {
-//         console.log("Pair");
-//     } else {
-//         console.log("High Card", rankArray[rankArray.length - 1]);
-//     }
-// }
 
 
