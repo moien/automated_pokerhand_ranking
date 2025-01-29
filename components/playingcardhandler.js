@@ -72,7 +72,7 @@ export function RankHands(hand) {
     // const handHasStraight =
     // hand.every((card, index) => index < hand.length+1 ? card.value + 1 == hand[index + 1].value : false);
     let handHasStraight = false;
-    
+
     for (let index = 0; index < 5; index++) {
         const card = hand[index];
         if (index < 4) {
@@ -87,13 +87,12 @@ export function RankHands(hand) {
     }
     if (!handHasStraight) {
         let cardString = '';
-        hand.map((x) => cardString += `${x.value} `);
-        console.log(cardString);
-        if(cardString == '13 4 3 2 1 '){
+        hand.map((x) => cardString += `${x.value} `);        
+        if (cardString == '13 4 3 2 1 ') {
             handHasStraight = true;
         }
     }
-    
+
     //peoples.filter(p => p.age > 30).map(p => p.name).sort((p1, p2) => p1 > p2 ? 1 : -1);
     let fullHouse = false;
     let handHasPair = false;
@@ -116,6 +115,11 @@ export function RankHands(hand) {
     //         handHasStraight = false;
     //     }
     // }
+    let equalCards = hand.reduce((prevCard, currCard) => {
+        isNaN(prevCard[currCard.value]) ? prevCard[currCard.value] = 1 : prevCard[currCard.value]++;
+        return prevCard;
+    }, {});
+
 
     if (handHasSameSuite) {
         return handHasStraight ? hand[0].value === 13 ? 'Royal Straight flush' : `Straight flush (${hand[0].rank} high)` : `Flush (${hand[0].rank} high)`;
@@ -123,21 +127,18 @@ export function RankHands(hand) {
         return hand[4].value == 1 ? `Straight (${hand[1].rank} high)` : `Straight (${hand[0].rank} high)`;
     }
     else if (fullHouse) {
-        return "FullHouse";
+        let fullHouseReturnString = 'Fullhouse ';
+        
+        let threes =  Object.keys(equalCards).find(key => equalCards[key] === 3);
+        let pair = Object.keys(equalCards).find(key => equalCards[key] === 2);
+        console.log('FH!!!!', threes, pair)
+        return `Full house (${rankTexts[threes]} over ${rankTexts[pair]})`;
     }
     else {
-
-        let equalCards = hand.reduce((prevCard, currCard) => {
-            isNaN(prevCard[currCard.value]) ? prevCard[currCard.value] = 1 : prevCard[currCard.value]++;
-            return prevCard;
-        }, {});
-
         for (const [key, value] of Object.entries(equalCards).sort((a, b) => b[0] - a[0])) {
             if (value === 4) { return `Flush (${hand[0].rank} high)` }
             if (value === 3) { return `Three of a kind (${rankTexts[key]})`; }
             if (value === 2) { return `Pair of ${rankTexts[key]}`; }
-
-
         }
     }
 
