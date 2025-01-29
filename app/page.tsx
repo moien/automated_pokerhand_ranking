@@ -15,10 +15,12 @@ export default function Home() {
 
   var statusText = '';
   const [data, setData] = useState(null);
+  const [rankings, setRanking] = useState(null);
 
 
 
   const handleGenerateHands = async () => {
+    setRanking(null);
     statusText = 'Loading...';
     const response = await fetch('api/cards/draw-hands');
 
@@ -44,14 +46,20 @@ export default function Home() {
 
     if (data) {
       let handRankings = await rankHand(data);
+
+      data.forEach((hand, index) => hand.ranking == handRankings[index]);
+      setData(data);
+      console.log('DAAATA:', data);
+      setRanking(handRankings);
     }
     // const response = await fetch('api/cards/rank-hands');
 
     // const ranking = await response.json();
     // console.log('data: ', data);
     // console.log('rank-hands: ', ranking);
-    //setData(hands);
+
   }
+
   const testMethod = async () => {
     let testDatA = [];
     var royalStraightFlush = [{ suit: 'S', rank: 'A', value: 13 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'S', rank: 'Q', value: 11 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'S', rank: '10', value: 9 }];
@@ -59,19 +67,29 @@ export default function Home() {
     var flush = [{ suit: 'S', rank: '5', value: 4 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'S', rank: 'Q', value: 11 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'S', rank: '10', value: 9 }];
     var straight = [{ suit: 'H', rank: '9', value: 8 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'S', rank: 'Q', value: 11 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'S', rank: '10', value: 9 }];
     var straight2 = [{ suit: 'H', rank: 'A', value: 13 }, { suit: 'S', rank: '2', value: 1 }, { suit: 'S', rank: '3', value: 2 }, { suit: 'S', rank: '4', value: 3 }, { suit: 'S', rank: '5', value: 4 }];
-    var fullHouse= [{ suit: 'H', rank: '5', value: 4 }, { suit: 'S', rank: '5', value: 4 }, { suit: 'D', rank: '5', value: 4 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12}];
-    var highCard = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'S', rank: '2', value: 1 }, { suit: 'S', rank: '3', value: 2 }, { suit: 'S', rank: '4', value: 3 }, { suit: 'S', rank: '5', value: 4 }];
+    var fullHouse = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'S', rank: '5', value: 4 }, { suit: 'D', rank: '5', value: 4 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
+    var fullHouse2 = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'S', rank: '5', value: 4 }, { suit: 'D', rank: 'K', value: 12 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
+    var fourOfAKind = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'H', rank: 'K', value: 12 }, { suit: 'D', rank: 'K', value: 12 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
+    var trips = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'H', rank: '3', value: 2 }, { suit: 'D', rank: 'K', value: 12 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
+    var pair = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'H', rank: 'J', value: 10 }, { suit: 'D', rank: '6', value: 5 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
+    var highCard = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'S', rank: '2', value: 1 }, { suit: 'S', rank: '3', value: 2 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'S', rank: '9', value: 8 }];
 
-     console.log('royalStraightFlush: ', await rankHand(new Array(1).fill().map(u => (royalStraightFlush))));
-     console.log('straightFlush: ', await rankHand(new Array(1).fill().map(u => (straightFlush))));
-     console.log('FLUSH: ', await rankHand(new Array(1).fill().map(u => (flush))));
+    console.log('royalStraightFlush: ', await rankHand(new Array(1).fill().map(u => (royalStraightFlush))));
+    console.log('straightFlush: ', await rankHand(new Array(1).fill().map(u => (straightFlush))));
+    console.log('FLUSH: ', await rankHand(new Array(1).fill().map(u => (flush))));
     // console.log('FLUSH: ', await rankHand(new Array(1).fill().map(u => (flush))));
     console.log('STRAIGHT: ', await rankHand(new Array(1).fill().map(u => (straight))));
+    console.log('STRAIGHT2: ', await rankHand(new Array(1).fill().map(u => (straight))));
     console.log('fullHouse: ', await rankHand(new Array(1).fill().map(u => (fullHouse))));
+    console.log('fullHouse2: ', await rankHand(new Array(1).fill().map(u => (fullHouse2))));
+    console.log('fourOfAKind: ', await rankHand(new Array(1).fill().map(u => (fourOfAKind))));
+    console.log('trips: ', await rankHand(new Array(1).fill().map(u => (trips))));
+    console.log('pair: ', await rankHand(new Array(1).fill().map(u => (pair))));
+    console.log('highCard: ', await rankHand(new Array(1).fill().map(u => (highCard))));
     //console.log('STRAIGHT 2: ', await rankHand(new Array(1).fill().map(u => (straight2))));
 
   }
-  testMethod();
+  //testMethod();
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <style>{css}</style>
@@ -86,14 +104,21 @@ export default function Home() {
         </button>
         <div key="hand-container">
           {data ?
-            data.map((hand) => (
-              <ul key={hand[0].key} className="block hand-container">
-                {hand.map((card) => (
-                  <li key={card.key} className="inline mr-2 card-container">
-                    <span style={{ color: card.color }}>{card.symbol}</span>{card.rank}
-                  </li>
-                ))}
-              </ul>
+            data.map((hand, handIndex) => (
+              <div key={hand[0].key}>
+                <div className='inline-block mr-4 font-bold size-32 align-top'>
+                  <span className=''>Hand {handIndex + 1}</span>
+                  <h4>{rankings ? (<span key={hand[0].key + handIndex}> {rankings[handIndex]} </span>) : ''}</h4>
+                </div>
+                <ul className="inline-block hand-container ">
+                  {hand.map((card) => (
+                    <li key={card.key} className="inline mr-2 card-container">
+                      <span style={{ color: card.color }}>{card.symbol}</span>{card.rank}
+                    </li>
+                  ))}
+                </ul>
+
+              </div>
             ))
             : statusText
           }

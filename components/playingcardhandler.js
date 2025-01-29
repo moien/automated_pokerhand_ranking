@@ -3,8 +3,9 @@ import { off } from "process";
 const suits = ["H", "S", "D", "C"];
 
 const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+const rankTexts = ["deuces", "threes", "fours", "fives", "sixes", "sevens", "eights", "nines", "tens", "jacks", "queens", "kings", "aces"];
 
-var handRankings = ['Royal Flush', 'Straight Flush', 'Four of a Kind', 'Full House', 'Flush', 'Straight', 'Three of a Kind', 'Two Pair', 'One Pair'];
+//var handRankings = ['Royal Flush', 'Straight Flush', 'Four of a Kind', 'Full House', 'Flush', 'Straight', 'Three of a Kind', 'Two Pair', 'One Pair'];
 
 function ShuffleDeck(deck) {
     let shuffled = deck
@@ -64,7 +65,7 @@ export function RankHands(hand) {
     hand.sort((a, b) => b.value - a.value)
     //return whichHand();
     //console.log('hand::::::::', hand)
-    console.log('HIGHEST: ' + hand[0].value)  ;
+    //console.log('HIGHEST: ' + hand[0].value)  ;
     const handHasSameSuite =
         hand.every(card => card.suit == hand[0].suit);
 
@@ -76,7 +77,7 @@ export function RankHands(hand) {
             if (hand[index + 1].value === card.value - 1) {
                 handHasStraight = true;
             }
-            else { handHasStraight = false; }
+            else { handHasStraight = false; break; }
         }
     }
 
@@ -84,9 +85,14 @@ export function RankHands(hand) {
     let fullHouse = false;
     let handHasPair = false;
     
-    fullHouse = hand[0].value === hand[1].value === hand[2].value && hand[2].value != hand[3].value && hand[3].value === hand[4].value ||
-    hand[0].value === hand[1].value && hand[1].value != hand[2].value && hand[2].value === hand[3].value === hand[4].value;
+    fullHouse = (hand[0].value === hand[1].value && hand[1].value === hand[2].value && hand[2].value != hand[3].value && hand[3].value === hand[4].value) ||
+    (hand[0].value === hand[1].value && hand[1].value != hand[2].value && hand[2].value === hand[3].value && hand[3].value === hand[4].value);
     
+
+    // let fourOfAKind = equalCards.find(x => x === 4);
+    // let threeOfAKind = equalCards.find(x => x === 3);
+    // let twoOfAKind = equalCards.find(x => x === 3);
+
     // for (let index = hand.length-1; index >= 0; index--) {
     //     const card = hand[index];
     //     //console.log('       ' + card.value - 1  + ' expects: ' + hand[index - 1].value )  ;
@@ -99,9 +105,9 @@ export function RankHands(hand) {
     // }
     
     if (handHasSameSuite) {
-        return handHasStraight ? hand[0].value === 13 ? 'Royal Straight flush' : 'Straight flush' : 'Flush';
+        return handHasStraight ? hand[0].value === 13 ? 'Royal Straight flush' : `Straight flush (${hand[0].rank} high)` : `Flush (${hand[0].rank} high)`;
     } else if (handHasStraight) {
-        return "Straight";
+        return `Straight (${hand[0].rank} high)`;
     }
     else if (handHasStraight) {
         return "Straight";
@@ -109,9 +115,24 @@ export function RankHands(hand) {
     else if (fullHouse) {
         return "FullHouse";
     }
+    else {
+
+        let equalCards = hand.reduce((prevCard, currCard) => {
+            isNaN(prevCard[currCard.value]) ? prevCard[currCard.value] = 1 : prevCard[currCard.value]++;
+            return prevCard;
+          }, {});
+          
+        for (const [key, value] of Object.entries(equalCards).sort((a, b) => b[0]-a[0])) {
+            if(value === 4) { return `Flush (${hand[0].rank} high)`}
+            if(value === 3) { return `Three of a kind (${rankTexts[key]})`;}
+            if(value === 2) { return `Pair of ${rankTexts[key]}`;}
+            
+            
+          }
+    }
     
     //console.log('Ranking hand:', handHasSameSuite);
-    return 'High card ' + ranks[hand[0].value];
+    return `High card (${hand[0].rank})`;
 }
 
 // function sorted() {
