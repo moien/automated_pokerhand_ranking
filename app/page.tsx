@@ -104,14 +104,14 @@ export default function Home() {
     //console.log('STRAIGHT 2: ', await rankHand(new Array(1).fill().map(u => (straight2))));
 
   }
-  testMethod();
+ 
   //testMethod();
   return (
     <div className="align-top items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <style>{css}</style>
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <h3>Poker hands</h3>
-        <small><i>by Magnus</i></small>
+        <h3 className='inline-block'>Poker hands</h3>
+        <small className='inline-block'><i>by Magnus</i></small>
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded inline-block" onClick={handleGenerateHands}>
           Generate hands
         </button>
@@ -131,9 +131,9 @@ export default function Home() {
           {data ?
             data.map((hand, handIndex) => (
               <div key={hand[0].key}>
-                <div className='inline-block mr-4 font-bold size-32 align-top'>
-                  <span className=''>Hand {handIndex + 1}</span>
-                  <h4>{rankings ? (<span key={hand[0].key + handIndex}> {rankings[handIndex]} </span>) : ''}</h4>
+                <div className='inline-block mr-4 font-bold size-32 align-top '>
+                  <h3 className=''>Hand {handIndex + 1}</h3>
+                  <p className='text-[#c16512]'>{rankings ? (<span key={hand[0].key + handIndex}> {rankings[handIndex]} </span>) : ''}</p>
                 </div>
                 <ul className="inline-block hand-container ">
                   {hand.map((card) => (
