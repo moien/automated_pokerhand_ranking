@@ -69,25 +69,38 @@ export function RankHands(hand) {
     const handHasSameSuite =
         hand.every(card => card.suit == hand[0].suit);
 
+    // const handHasStraight =
+    // hand.every((card, index) => index < hand.length+1 ? card.value + 1 == hand[index + 1].value : false);
     let handHasStraight = false;
+    
     for (let index = 0; index < 5; index++) {
         const card = hand[index];
         if (index < 4) {
-          //  console.log('       ' + card.value - 1  + ' expects: ' + hand[index + 1].value )  ;
-            if (hand[index + 1].value === card.value - 1) {
+            //  console.log('       ' + card.value - 1  + ' expects: ' + hand[index + 1].value )  ;
+            //const mightBeFiveHighStraight = hand[0].rank == 'A' && hand[index + 1].value === 0;
+            const nextCardValueChecksOut = hand[index + 1].value === card.value - 1;
+            if (nextCardValueChecksOut) {
                 handHasStraight = true;
             }
             else { handHasStraight = false; break; }
         }
     }
-
+    if (!handHasStraight) {
+        let cardString = '';
+        hand.map((x) => cardString += `${x.value} `);
+        console.log(cardString);
+        if(cardString == '13 4 3 2 1 '){
+            handHasStraight = true;
+        }
+    }
+    
     //peoples.filter(p => p.age > 30).map(p => p.name).sort((p1, p2) => p1 > p2 ? 1 : -1);
     let fullHouse = false;
     let handHasPair = false;
-    
+
     fullHouse = (hand[0].value === hand[1].value && hand[1].value === hand[2].value && hand[2].value != hand[3].value && hand[3].value === hand[4].value) ||
-    (hand[0].value === hand[1].value && hand[1].value != hand[2].value && hand[2].value === hand[3].value && hand[3].value === hand[4].value);
-    
+        (hand[0].value === hand[1].value && hand[1].value != hand[2].value && hand[2].value === hand[3].value && hand[3].value === hand[4].value);
+
 
     // let fourOfAKind = equalCards.find(x => x === 4);
     // let threeOfAKind = equalCards.find(x => x === 3);
@@ -103,14 +116,11 @@ export function RankHands(hand) {
     //         handHasStraight = false;
     //     }
     // }
-    
+
     if (handHasSameSuite) {
         return handHasStraight ? hand[0].value === 13 ? 'Royal Straight flush' : `Straight flush (${hand[0].rank} high)` : `Flush (${hand[0].rank} high)`;
     } else if (handHasStraight) {
-        return `Straight (${hand[0].rank} high)`;
-    }
-    else if (handHasStraight) {
-        return "Straight";
+        return hand[4].value == 1 ? `Straight (${hand[1].rank} high)` : `Straight (${hand[0].rank} high)`;
     }
     else if (fullHouse) {
         return "FullHouse";
@@ -120,17 +130,17 @@ export function RankHands(hand) {
         let equalCards = hand.reduce((prevCard, currCard) => {
             isNaN(prevCard[currCard.value]) ? prevCard[currCard.value] = 1 : prevCard[currCard.value]++;
             return prevCard;
-          }, {});
-          
-        for (const [key, value] of Object.entries(equalCards).sort((a, b) => b[0]-a[0])) {
-            if(value === 4) { return `Flush (${hand[0].rank} high)`}
-            if(value === 3) { return `Three of a kind (${rankTexts[key]})`;}
-            if(value === 2) { return `Pair of ${rankTexts[key]}`;}
-            
-            
-          }
+        }, {});
+
+        for (const [key, value] of Object.entries(equalCards).sort((a, b) => b[0] - a[0])) {
+            if (value === 4) { return `Flush (${hand[0].rank} high)` }
+            if (value === 3) { return `Three of a kind (${rankTexts[key]})`; }
+            if (value === 2) { return `Pair of ${rankTexts[key]}`; }
+
+
+        }
     }
-    
+
     //console.log('Ranking hand:', handHasSameSuite);
     return `High card (${hand[0].rank})`;
 }

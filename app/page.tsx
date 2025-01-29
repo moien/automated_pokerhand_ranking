@@ -79,7 +79,7 @@ export default function Home() {
     console.log('FLUSH: ', await rankHand(new Array(1).fill().map(u => (flush))));
     // console.log('FLUSH: ', await rankHand(new Array(1).fill().map(u => (flush))));
     console.log('STRAIGHT: ', await rankHand(new Array(1).fill().map(u => (straight))));
-    console.log('STRAIGHT2: ', await rankHand(new Array(1).fill().map(u => (straight))));
+    console.log('STRAIGHT2: ', await rankHand(new Array(1).fill().map(u => (straight2))));
     console.log('fullHouse: ', await rankHand(new Array(1).fill().map(u => (fullHouse))));
     console.log('fullHouse2: ', await rankHand(new Array(1).fill().map(u => (fullHouse2))));
     console.log('fourOfAKind: ', await rankHand(new Array(1).fill().map(u => (fourOfAKind))));
@@ -90,6 +90,7 @@ export default function Home() {
 
   }
   //testMethod();
+  testMethod();
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <style>{css}</style>
