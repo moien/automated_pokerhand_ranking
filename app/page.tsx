@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const css = `
     .hand-container {
@@ -16,20 +16,31 @@ export default function Home() {
   var statusText = '';
   const [data, setData] = useState(null);
   const [rankings, setRanking] = useState(null);
+  const [autoRankchecked, setChecked] = useState(false);
 
-
-
+  const handleautoRankCheckbox = (): void => {
+    setChecked((value) => !value);
+  };
+  useEffect(() => {
+    if (autoRankchecked) {
+      rankHands();
+    }
+}, [data])
   const handleGenerateHands = async () => {
     setRanking(null);
     statusText = 'Loading...';
     const response = await fetch('api/cards/draw-hands');
 
     const hands = await response.json();
-    console.log('draw-hands: ', hands);
-    setData(hands);
+
+    await setData(hands)
+    console.log('draw-hands: ' + autoRankchecked, data);
+
+
+
     statusText = '';
 
-  }
+  };
   const rankHand = async (hands: []) => {
 
     const response = await fetch('api/cards/rank-hands', {
@@ -39,17 +50,18 @@ export default function Home() {
     });
     const responseBody = await response.json();
     //console.log('rank-hands: ', responseBody);
+
     return responseBody;
   }
 
   const rankHands = async () => {
-
+    console.log('rankHands:', data);
     if (data) {
       let handRankings = await rankHand(data);
 
-      data.forEach((hand, index) => hand.ranking == handRankings[index]);
-      setData(data);
-      console.log('DAAATA:', data);
+      //data.forEach((hand, index) => hand.ranking == handRankings[index]);
+      //setData(data);
+      console.log('handRankings:', handRankings);
       setRanking(handRankings);
     }
     // const response = await fetch('api/cards/rank-hands');
@@ -59,6 +71,7 @@ export default function Home() {
     // console.log('rank-hands: ', ranking);
 
   }
+
 
   const testMethod = async () => {
     let testDatA = [];
@@ -90,7 +103,7 @@ export default function Home() {
 
   }
   //testMethod();
-  testMethod();
+  //testMethod();
   return (
     <div className="align-top items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <style>{css}</style>
@@ -103,6 +116,15 @@ export default function Home() {
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded inline-block" onClick={rankHands}>
           Rank hands
         </button>
+        <label className='inline'>Rank automatically
+          <input
+            type="checkbox"
+            id="autoRankCheckbox"
+            className='mx-4 inline'
+            checked={autoRankchecked}
+            onChange={handleautoRankCheckbox}
+          />
+        </label>
         <div key="hand-container">
           {data ?
             data.map((hand, handIndex) => (

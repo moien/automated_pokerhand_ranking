@@ -126,12 +126,9 @@ export function RankHands(hand) {
     } else if (handHasStraight) {
         return hand[4].value == 1 ? `Straight (${hand[1].rank} high)` : `Straight (${hand[0].rank} high)`;
     }
-    else if (fullHouse) {
-        let fullHouseReturnString = 'Fullhouse ';
-        
+    else if (fullHouse) {        
         let threes =  Object.keys(equalCards).find(key => equalCards[key] === 3);
-        let pair = Object.keys(equalCards).find(key => equalCards[key] === 2);
-        console.log('FH!!!!', threes, pair)
+        let pair = Object.keys(equalCards).find(key => equalCards[key] === 2);        
         return `Full house (${rankTexts[threes]} over ${rankTexts[pair]})`;
     }
     else {
