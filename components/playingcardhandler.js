@@ -36,8 +36,8 @@ export function GenerateDeck() {
             cards.push(card);
         }
     }
-    console.log('Cards:', cards);
-    console.log('Cards no: ' + cards.length);
+    //console.log('Cards:', cards);
+    //console.log('Cards no: ' + cards.length);
 
     return ShuffleDeck(cards);
 }
@@ -48,18 +48,21 @@ export function GenerateHandFromDeck(deck) {
         cards: [],
         key: ''
     };
-    
-    
+
+
     let handKey = '';
     for (let cardCount = 0; cardCount < 5; cardCount++) {
         let card = deck[cardCount];
-        deck.splice(cardCount, 1);
-        handKey += card.key;
-        hand.cards.push(card);
+        if (card) {
+            
+            handKey += card.key;
+            hand.cards.push(card);
+        }
     }
-    
+
     hand.key = handKey;
-    console.log('Hand:', hand);
+    //console.log('Hand:', hand);
+    deck.splice(0, 5);
     return hand;
 }
 
@@ -125,18 +128,18 @@ export function RankHands(hand) {
         isNaN(prevCard[currCard.value]) ? prevCard[currCard.value] = 1 : prevCard[currCard.value]++;
         return prevCard;
     }, {});
-    
-    console.log('equalCards',equalCards);
+
+    console.log('equalCards', equalCards);
 
     if (handHasSameSuite) {
-        return handHasStraight ? hand[0].value === 13 ? { text: 'Royal Straight flush', rank: 10 } : { text: `Straight flush (${hand[0].rank} high)`, rank: 9 } : { text: `Flush (${hand[0].rank} high)`, rank: 6};
+        return handHasStraight ? hand[0].value === 13 ? { text: 'Royal Straight flush', rank: 10 } : { text: `Straight flush (${hand[0].rank} high)`, rank: 9 } : { text: `Flush (${hand[0].rank} high)`, rank: 6 };
     } else if (handHasStraight) {
         return hand[4].value == 1 ? { text: `Straight (${hand[1].rank} high)`, rank: 5 } : { text: `Straight (${hand[0].rank} high)`, rank: 5 };
     }
     else if (fullHouse) {
         let threes = Object.keys(equalCards).find(key => equalCards[key] === 3);
         let pair = Object.keys(equalCards).find(key => equalCards[key] === 2);
-        return { text: `Full house (${rankTexts[threes]} over ${rankTexts[pair]})`, rank: 7, rank2: threes[0].key, rank3: pair[0].key  };
+        return { text: `Full house (${rankTexts[threes]} over ${rankTexts[pair]})`, rank: 7, rank2: threes[0].key, rank3: pair[0].key };
     }
     else {
 
@@ -154,7 +157,7 @@ export function RankHands(hand) {
         }
 
         //console.log('Ranking hand:', handHasSameSuite);
-        return { text: `High card (${hand[0].rank})`, rank: 1};
+        return { text: `High card (${hand[0].rank})`, rank: 1 };
     }
 }
 

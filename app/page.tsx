@@ -17,7 +17,9 @@ export default function Home() {
   const [data, setData] = useState(null);
   const [rankings, setRanking] = useState(null);
   const [autoRankchecked, setChecked] = useState(false);
+  const [handsCount, setHandsCount] = useState(0);
 
+  
   const handleautoRankCheckbox = (): void => {
     setChecked((value) => !value);
   };
@@ -26,10 +28,11 @@ export default function Home() {
       rankHands();
     }
   }, [data])
+
   const handleGenerateHands = async () => {
     setRanking(null);
     statusText = 'Loading...';
-    const response = await fetch('api/cards/draw-hands');
+    const response = await fetch('api/cards/draw-hands/?count='+handsCount);
 
     const hands = await response.json();
 
@@ -121,7 +124,10 @@ export default function Home() {
     //console.log('STRAIGHT 2: ', await rankHand(new Array(1).fill().map(u => (straight2))));
 
   }
-
+  const handsNoChanged = async (e) => {
+    console.log('handsNoChanged', e);
+    setHandsCount(e.target.value);
+  }
   //testMethod();
   return (
     <div className="align-top items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -132,18 +138,24 @@ export default function Home() {
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded inline-block" onClick={handleGenerateHands}>
           Generate hands
         </button>
+        <label htmlFor="number-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a number:</label>
+        <input type="number" id="number-input"  value={handsCount} onChange={(e) => handsNoChanged(e)} aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="2" required />
+
+
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded inline-block" onClick={rankHands}>
           Rank hands
         </button>
-        <label className='inline'>Rank automatically
-          <input
+
+        <div className="flex items-center">
+        <input
             type="checkbox"
             id="autoRankCheckbox"
-            className='mx-4 inline'
+            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
             checked={autoRankchecked}
             onChange={handleautoRankCheckbox}
-          />
-        </label>
+          /> 
+            <label htmlFor="autoRankCheckbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Rank automatically</label>
+        </div>
         <div key="hand-container" id="hand-container">
           {data ?
             data.map((hand, handIndex) => (
@@ -151,8 +163,8 @@ export default function Home() {
                 <div className='inline-block mr-4 font-bold size-32 align-top '>
                   <h3 className=''>Hand {handIndex + 1}</h3>
                   <p className='text-[#c16512]'>{rankings ? (<span key={hand.key + handIndex}> {rankings.find(x => x.handRanking.key === hand.key)['handRanking'].text} </span>) : ''}</p>
-                  <p className='text-[#d90f90]'>{rankings ? (<span key={hand.key + handIndex}> {rankings.find(x => x.handRanking.key === hand.key).winner? 'Winner!' : ''} </span>) : ''}</p>
-                  
+                  <p className='text-[#d90f90]'>{rankings ? (<span key={hand.key + handIndex}> {rankings.find(x => x.handRanking.key === hand.key).winner ? 'Winner!' : ''} </span>) : ''}</p>
+
                 </div>
                 <ul className="inline-block hand-container ">
                   {hand.cards.map((card) => (
