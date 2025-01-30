@@ -10,8 +10,8 @@ export async function GET(req: Request) {
   if(!handsNo || handsNo <= 0){
     handsNo = 2;
   }
-  if(handsNo > 9 ){
-    handsNo = 9; // 50 cards is max (five each).
+  if(handsNo > 10 ){
+    handsNo = 10; // 50 cards is max (five each).
   }
   let deck = await GenerateDeck();
   let handsList = [];

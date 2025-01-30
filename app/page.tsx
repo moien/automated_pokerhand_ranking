@@ -17,9 +17,9 @@ export default function Home() {
   const [data, setData] = useState(null);
   const [rankings, setRanking] = useState(null);
   const [autoRankchecked, setChecked] = useState(false);
-  const [handsCount, setHandsCount] = useState(0);
+  const [handsCount, setHandsCount] = useState(2);
 
-  
+
   const handleautoRankCheckbox = (): void => {
     setChecked((value) => !value);
   };
@@ -32,7 +32,7 @@ export default function Home() {
   const handleGenerateHands = async () => {
     setRanking(null);
     statusText = 'Loading...';
-    const response = await fetch('api/cards/draw-hands/?count='+handsCount);
+    const response = await fetch('api/cards/draw-hands/?count=' + handsCount);
 
     const hands = await response.json();
 
@@ -138,23 +138,22 @@ export default function Home() {
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded inline-block" onClick={handleGenerateHands}>
           Generate hands
         </button>
-        <label htmlFor="number-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a number:</label>
-        <input type="number" id="number-input"  value={handsCount} onChange={(e) => handsNoChanged(e)} aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="2" required />
-
-
+        <label htmlFor="number-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white inline">Hands:
+          <input type="number" id="number-input" min="1" max="10" value={handsCount} onChange={(e) => handsNoChanged(e)} aria-describedby="helper-text-explanation" className="ms-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 inline" placeholder="2" required />
+        </label>
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded inline-block" onClick={rankHands}>
           Rank hands
         </button>
 
         <div className="flex items-center">
-        <input
+          <input
             type="checkbox"
             id="autoRankCheckbox"
             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
             checked={autoRankchecked}
             onChange={handleautoRankCheckbox}
-          /> 
-            <label htmlFor="autoRankCheckbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Rank automatically</label>
+          />
+          <label htmlFor="autoRankCheckbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Rank automatically</label>
         </div>
         <div key="hand-container" id="hand-container">
           {data ?

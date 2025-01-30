@@ -128,8 +128,10 @@ export function RankHands(hand) {
         isNaN(prevCard[currCard.value]) ? prevCard[currCard.value] = 1 : prevCard[currCard.value]++;
         return prevCard;
     }, {});
+    console.log(equalCards);
+    //equalCards.sort((a, b) => a[0].localeCompare(b[0]))
+    
 
-    console.log('equalCards', equalCards);
 
     if (handHasSameSuite) {
         return handHasStraight ? hand[0].value === 13 ? { text: 'Royal Straight flush', rank: 10 } : { text: `Straight flush (${hand[0].rank} high)`, rank: 9 } : { text: `Flush (${hand[0].rank} high)`, rank: 6 };
@@ -149,6 +151,7 @@ export function RankHands(hand) {
         }
 
         for (const [key, value] of Object.entries(equalCards).sort((a, b) => b[0] - a[0])) {
+            console.log('           ', key, value);
             if (value === 4) { return { text: `Four of a kind (${rankTexts[key]})`, rank: 8 }; }
             if (value === 3) { return { text: `Three of a kind (${rankTexts[key]})`, rank: 4 }; }
             if (value === 2) {
