@@ -25,7 +25,7 @@ export default function Home() {
     if (autoRankchecked) {
       rankHands();
     }
-}, [data])
+  }, [data])
   const handleGenerateHands = async () => {
     setRanking(null);
     statusText = 'Loading...';
@@ -61,12 +61,20 @@ export default function Home() {
 
       //data.forEach((hand, index) => hand.ranking == handRankings[index]);
       //setData(data);
-      console.log('handRankings:', handRankings);
-      var ids = data.map(hand => hand.id);
 
-      const handRankingsExtended = handRankings.map((rank, index) => ({ ...rank,
-        totalRankValue: data[index].value
-      }));
+      // const handRankingsExtended = handRankings.map((rank, index) => ({ ...rank,
+      //   totalRankValue: data[index].value
+      // }));
+      handRankings.sort(function (a, b) {
+        return b.handRanking.rank - a.handRanking.rank ||
+          b.totalCardsValueList[0] - a.totalCardsValueList[0] ||
+          b.totalCardsValueList[1] - a.totalCardsValueList[1] ||
+          b.totalCardsValueList[2] - a.totalCardsValueList[2] ||
+          b.totalCardsValueList[3] - a.totalCardsValueList[3] ||
+          b.totalCardsValueList[4] - a.totalCardsValueList[4]
+          ;
+      });
+      console.log('handRankings:', handRankings);
 
       setRanking(handRankings);
     }
@@ -110,7 +118,7 @@ export default function Home() {
     //console.log('STRAIGHT 2: ', await rankHand(new Array(1).fill().map(u => (straight2))));
 
   }
- 
+
   //testMethod();
   return (
     <div className="align-top items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">

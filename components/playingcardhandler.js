@@ -1,6 +1,6 @@
 import { off } from "process";
 
-const suits = ["H", "S", "D", "C"];
+const suits = ["h", "s", "d", "c"];
 
 const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
 const rankTexts = ["deuces", "threes", "fours", "fives", "sixes", "sevens", "eights", "nines", "tens", "jacks", "queens", "kings", "aces"];
@@ -29,9 +29,9 @@ export function GenerateDeck() {
                 suit: suit,
                 rank: rank,
                 value: valueNo,
-                color: suit == 'H' || suit == 'D' ? '#8B0000' : '#000',
-                symbol: suit == 'H' ? '♥' : suit == 'D' ? "♦" : suit == 'S' ? "♠" : "♣",
-                key: `${suit}${rank}`
+                color: suit == 'h' || suit == 'd' ? '#8B0000' : '#000',
+                symbol: suit == 'h' ? '♥' : suit == 'd' ? "♦" : suit == 's' ? "♠" : "♣",
+                key: `${rank}${suit}`
             };
             cards.push(card);
         }
@@ -52,8 +52,9 @@ export function GenerateHandFromDeck(deck) {
         handKey += card.key;
         hand.push(card);
     }
+    
+    hand['key'] = handKey;
     console.log('Hand:', hand);
-    hand.key = handKey;
     return hand;
 }
 
@@ -147,7 +148,7 @@ export function RankHands(hand) {
         }
 
         //console.log('Ranking hand:', handHasSameSuite);
-        return { text: `High card (${hand[0].rank})`, rank: 1 };
+        return { text: `High card (${hand[0].rank})`, rank: 1};
     }
 }
 

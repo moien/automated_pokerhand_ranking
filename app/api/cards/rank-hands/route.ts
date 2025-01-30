@@ -20,13 +20,20 @@ export async function POST(request: Request) {
 
   for (let index = 0; index < hands.length; index++) {
     const hand = hands[index];
-    const handRanking = await RankHands(hand);
-    const totalCardsValue = hand.map(card => (card.value).toString()).join('');
-    const handRankingRank = handRanking.rank.toString();
-    let floatParseText = handRankingRank + totalCardsValue;
-    let parsedTotalValue = parseInt(floatParseText);
-    console.log('handRankingRank',floatParseText);
-    result.push({handRanking, parsedTotalValue });
+    let handRanking = await RankHands(hand);
+    // handRanking['key'] = hand.key;
+    // console.log('HHHHHHH ', hand);
+    const totalCardsValueList = hand.map(card => card.value);
+    
+    // //const totalCardsValue = totalCardsValueList.join('');
+    // let handRankingRank = '';
+    // handRankingRank = handRanking.rank > 9 ? handRanking.rank.toString() : ('0' + handRanking.rank.toString());
+    // let floatParseText = handRankingRank + '.' + totalCardsValueList;
+    // console.log('floatParseText',floatParseText);
+    // let parsedTotalValue = parseFloat(floatParseText);
+    const handKey = hand.key;
+
+    result.push({handRanking, totalCardsValueList });
 
   
   }
