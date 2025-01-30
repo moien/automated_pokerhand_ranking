@@ -74,6 +74,7 @@ export default function Home() {
           b.totalCardsValueList[4] - a.totalCardsValueList[4]
           ;
       });
+      handRankings[0].winner = true;
       console.log('handRankings:', handRankings);
 
       setRanking(handRankings);
@@ -141,16 +142,18 @@ export default function Home() {
             onChange={handleautoRankCheckbox}
           />
         </label>
-        <div key="hand-container">
+        <div key="hand-container" id="hand-container">
           {data ?
             data.map((hand, handIndex) => (
-              <div key={hand[0].key}>
+              <div key={hand.key}>
                 <div className='inline-block mr-4 font-bold size-32 align-top '>
                   <h3 className=''>Hand {handIndex + 1}</h3>
-                  <p className='text-[#c16512]'>{rankings ? (<span key={hand[0].key + handIndex}> {rankings[handIndex]['handRanking'].text} </span>) : ''}</p>
+                  <p className='text-[#c16512]'>{rankings ? (<span key={hand.key + handIndex}> {rankings.find(x => x.handRanking.key === hand.key)['handRanking'].text} </span>) : ''}</p>
+                  <p className='text-[#d90f90]'>{rankings ? (<span key={hand.key + handIndex}> {rankings.find(x => x.handRanking.key === hand.key).winner? 'Winner!' : ''} </span>) : ''}</p>
+                  
                 </div>
                 <ul className="inline-block hand-container ">
-                  {hand.map((card) => (
+                  {hand.cards.map((card) => (
                     <li key={card.key} className="inline mr-2 card-container">
                       <span style={{ color: card.color }}>{card.symbol}</span>{card.rank}
                     </li>

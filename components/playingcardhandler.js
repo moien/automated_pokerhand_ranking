@@ -44,16 +44,21 @@ export function GenerateDeck() {
 
 
 export function GenerateHandFromDeck(deck) {
-    let hand = [];
+    let hand = {
+        cards: [],
+        key: ''
+    };
+    
+    
     let handKey = '';
     for (let cardCount = 0; cardCount < 5; cardCount++) {
         let card = deck[cardCount];
         deck.splice(cardCount, 1);
         handKey += card.key;
-        hand.push(card);
+        hand.cards.push(card);
     }
     
-    hand['key'] = handKey;
+    hand.key = handKey;
     console.log('Hand:', hand);
     return hand;
 }
