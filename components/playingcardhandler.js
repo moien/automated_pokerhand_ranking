@@ -92,21 +92,19 @@ export function RankHands(hand) {
         return prevCard;
     }, {});
 
+    let pairs = Object.keys(equalCards).filter(key => equalCards[key] === 2).map(i=>Number(i)).sort((a, b) => b - a);
+    let threes = Object.keys(equalCards).filter(key => equalCards[key] === 3).map(i=>Number(i)).sort((a, b) => b - a );
+    
     if (handHasSameSuite) {
         return handHasStraight ? hand[0].value === 13 ? { text: 'Royal Straight flush', rank: 10 } : { text: `Straight flush (${hand[0].rank} high)`, rank: 9 } : { text: `Flush (${hand[0].rank} high)`, rank: 6 };
     } else if (handHasStraight) {
         return hand[4].value == 1 ? { text: `Straight (${hand[1].rank} high)`, rank: 5 } : { text: `Straight (${hand[0].rank} high)`, rank: 5 };
     }
     else if (fullHouse) {
-        let threes = Object.keys(equalCards).find(key => equalCards[key] === 3);
-        let pair = Object.keys(equalCards).find(key => equalCards[key] === 2);
-        return { text: `Full house (${rankTexts[threes]} over ${rankTexts[pair]})`, rank: 7, rank2: threes[0].key, rank3: pair[0].key };
+        return { text: `Full house (${rankTexts[threes]} over ${rankTexts[pairs]})`, rank: 7, rank2: threes[0].key, rank3: pairs[0].key };
     }
     else {
-
-        let pairs = Object.keys(equalCards).filter(key => equalCards[key] === 2).sort((a, b) => b[0] - a[0]);
-        let threes = Object.keys(equalCards).filter(key => equalCards[key] === 3).sort((a, b) => b[0] - a[0]);
-
+        
         if (pairs.length === 2) {
             return { text: `Two pair (${rankTexts[pairs[0]]} and ${rankTexts[pairs[1]]} )`, rank: 3, rank2: pairs[0], rank3: pairs[1] };
         }
