@@ -145,7 +145,7 @@ export function RankHands(hand) {
     }
     else {
 
-        let pairs = Object.keys(equalCards).filter(key => equalCards[key] === 2);
+        let pairs = Object.keys(equalCards).filter(key => equalCards[key] === 2).sort((a, b) => a[0] - b[0]);
         if (pairs.length === 2) {
             return { text: `Two pair (${rankTexts[pairs[0]]} and ${rankTexts[pairs[1]]} )`, rank: 3, rank2: pairs[0], rank3: pairs[1] };
         }

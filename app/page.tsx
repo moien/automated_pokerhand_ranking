@@ -104,23 +104,29 @@ export default function Home() {
     var fullHouse2 = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'S', rank: '5', value: 4 }, { suit: 'D', rank: 'K', value: 12 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
     var fourOfAKind = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'H', rank: 'K', value: 12 }, { suit: 'D', rank: 'K', value: 12 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
     var trips = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'H', rank: '3', value: 2 }, { suit: 'D', rank: 'K', value: 12 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
-    var twoPair = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'H', rank: '5', value: 4 }, { suit: 'D', rank: '6', value: 5 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'C', rank: 'J', value: 10 }];
+    var twoPair = {key: 'twoPair',  cards: [{ suit: 'H', rank: '5', value: 3 }, { suit: 'H', rank: '5', value: 3 }, { suit: 'D', rank: '6', value: 4 }, { suit: 'S', rank: 'K', value: 11 }, { suit: 'C', rank: 'K', value: 11 }]};
+    var twoPair2 = {key: 'twoPair2',  cards: [{ suit: 'H', rank: 'A', value: 12 }, { suit: 'H', rank: 'A', value: 12 }, { suit: 'D', rank: '6', value: 4 }, { suit: 'S', rank: 'J', value: 9 }, { suit: 'C', rank: 'J', value: 9 }]};
     var pair = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'H', rank: 'J', value: 10 }, { suit: 'D', rank: '6', value: 5 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
     var highCard = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'S', rank: '2', value: 1 }, { suit: 'S', rank: '3', value: 2 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'S', rank: '9', value: 8 }];
 
-    console.log('royalStraightFlush: ', await rankHand(new Array(1).fill().map(u => (royalStraightFlush))));
-    console.log('straightFlush: ', await rankHand(new Array(1).fill().map(u => (straightFlush))));
-    console.log('FLUSH: ', await rankHand(new Array(1).fill().map(u => (flush))));
+    // console.log('royalStraightFlush: ', await rankHand(new Array(1).fill().map(u => (royalStraightFlush))));
+    // console.log('straightFlush: ', await rankHand(new Array(1).fill().map(u => (straightFlush))));
     // console.log('FLUSH: ', await rankHand(new Array(1).fill().map(u => (flush))));
-    console.log('STRAIGHT: ', await rankHand(new Array(1).fill().map(u => (straight))));
-    console.log('STRAIGHT2: ', await rankHand(new Array(1).fill().map(u => (straight2))));
-    console.log('fullHouse: ', await rankHand(new Array(1).fill().map(u => (fullHouse))));
-    console.log('fullHouse2: ', await rankHand(new Array(1).fill().map(u => (fullHouse2))));
-    console.log('fourOfAKind: ', await rankHand(new Array(1).fill().map(u => (fourOfAKind))));
-    console.log('trips: ', await rankHand(new Array(1).fill().map(u => (trips))));
-    console.log('twoPair: ', await rankHand(new Array(1).fill().map(u => (twoPair))));
-    console.log('pair: ', await rankHand(new Array(1).fill().map(u => (pair))));
-    console.log('highCard: ', await rankHand(new Array(1).fill().map(u => (highCard))));
+    // // console.log('FLUSH: ', await rankHand(new Array(1).fill().map(u => (flush))));
+    // console.log('STRAIGHT: ', await rankHand(new Array(1).fill().map(u => (straight))));
+    // console.log('STRAIGHT2: ', await rankHand(new Array(1).fill().map(u => (straight2))));
+    // console.log('fullHouse: ', await rankHand(new Array(1).fill().map(u => (fullHouse))));
+    // console.log('fullHouse2: ', await rankHand(new Array(1).fill().map(u => (fullHouse2))));
+    // console.log('fourOfAKind: ', await rankHand(new Array(1).fill().map(u => (fourOfAKind))));
+    // console.log('trips: ', await rankHand(new Array(1).fill().map(u => (trips))));
+    const twoPairArr = [
+     twoPair, twoPair2
+  ];
+     console.log('twopair: ', await rankHand(twoPairArr));
+    
+    
+    // console.log('pair: ', await rankHand(new Array(1).fill().map(u => (pair))));
+    // console.log('highCard: ', await rankHand(new Array(1).fill().map(u => (highCard))));
     //console.log('STRAIGHT 2: ', await rankHand(new Array(1).fill().map(u => (straight2))));
 
   }
@@ -128,7 +134,7 @@ export default function Home() {
     console.log('handsNoChanged', e);
     setHandsCount(e.target.value);
   }
-  //testMethod();
+  testMethod();
   return (
     <div className="align-top items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <style>{css}</style>
