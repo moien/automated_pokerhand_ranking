@@ -67,6 +67,8 @@ export default function Home() {
       // }));
       handRankings.sort(function (a, b) {
         return b.handRanking.rank - a.handRanking.rank ||
+          b.handRanking.rank2 - a.handRanking.rank2 ||
+          b.handRanking.rank3 - a.handRanking.rank3 ||
           b.totalCardsValueList[0] - a.totalCardsValueList[0] ||
           b.totalCardsValueList[1] - a.totalCardsValueList[1] ||
           b.totalCardsValueList[2] - a.totalCardsValueList[2] ||
