@@ -10,7 +10,6 @@ const css = `
     }
       
 `
-
 export default function Home() {
 
   var statusText = '';
@@ -18,7 +17,6 @@ export default function Home() {
   const [rankings, setRanking] = useState(null);
   const [autoRankchecked, setChecked] = useState(false);
   const [handsCount, setHandsCount] = useState(2);
-
 
   const handleautoRankCheckbox = (): void => {
     setChecked((value) => !value);
@@ -33,41 +31,27 @@ export default function Home() {
     setRanking(null);
     statusText = 'Loading...';
     const response = await fetch('api/cards/draw-hands/?count=' + handsCount);
-
     const hands = await response.json();
 
     await setData(hands)
-    console.log('draw-hands: ' + autoRankchecked, data);
-
-
-
+    
     statusText = '';
-
   };
   const rankHand = async (hands: []) => {
-
     const response = await fetch('api/cards/rank-hands', {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify(hands)
     });
     const responseBody = await response.json();
-    //console.log('rank-hands: ', responseBody);
-
     return responseBody;
   }
 
   const rankHands = async () => {
-    console.log('rankHands:', data);
+    
     if (data) {
       let handRankings = await rankHand(data);
 
-      //data.forEach((hand, index) => hand.ranking == handRankings[index]);
-      //setData(data);
-
-      // const handRankingsExtended = handRankings.map((rank, index) => ({ ...rank,
-      //   totalRankValue: data[index].value
-      // }));
       handRankings.sort(function (a, b) {
         return b.handRanking.rank - a.handRanking.rank ||
           b.handRanking.rank2 - a.handRanking.rank2 ||
@@ -79,62 +63,18 @@ export default function Home() {
           b.totalCardsValueList[4] - a.totalCardsValueList[4]
           ;
       });
-      handRankings[0].winner = true;
-      console.log('handRankings:', handRankings);
 
+      // TODO - Check if the pot should split by two or more hands
+      handRankings[0].winner = true;
+      
       setRanking(handRankings);
     }
-    // const response = await fetch('api/cards/rank-hands');
-
-    // const ranking = await response.json();
-    // console.log('data: ', data);
-    // console.log('rank-hands: ', ranking);
-
-  }
-
-
-  const testMethod = async () => {
-    let testDatA = [];
-    var royalStraightFlush = [{ suit: 'S', rank: 'A', value: 13 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'S', rank: 'Q', value: 11 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'S', rank: '10', value: 9 }];
-    var straightFlush = [{ suit: 'S', rank: '9', value: 8 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'S', rank: 'Q', value: 11 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'S', rank: '10', value: 9 }];
-    var flush = [{ suit: 'S', rank: '5', value: 4 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'S', rank: 'Q', value: 11 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'S', rank: '10', value: 9 }];
-    var straight = [{ suit: 'H', rank: '9', value: 8 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'S', rank: 'Q', value: 11 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'S', rank: '10', value: 9 }];
-    var straight2 = [{ suit: 'H', rank: 'A', value: 13 }, { suit: 'S', rank: '2', value: 1 }, { suit: 'S', rank: '3', value: 2 }, { suit: 'S', rank: '4', value: 3 }, { suit: 'S', rank: '5', value: 4 }];
-    var fullHouse = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'S', rank: '5', value: 4 }, { suit: 'D', rank: '5', value: 4 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
-    var fullHouse2 = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'S', rank: '5', value: 4 }, { suit: 'D', rank: 'K', value: 12 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
-    var fourOfAKind = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'H', rank: 'K', value: 12 }, { suit: 'D', rank: 'K', value: 12 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
-    var trips = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'H', rank: '3', value: 2 }, { suit: 'D', rank: 'K', value: 12 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
-    var twoPair = {key: 'twoPair',  cards: [{ suit: 'H', rank: '5', value: 3 }, { suit: 'H', rank: '5', value: 3 }, { suit: 'D', rank: '6', value: 4 }, { suit: 'S', rank: 'K', value: 11 }, { suit: 'C', rank: 'K', value: 11 }]};
-    var twoPair2 = {key: 'twoPair2',  cards: [{ suit: 'H', rank: 'A', value: 12 }, { suit: 'H', rank: 'A', value: 12 }, { suit: 'D', rank: '6', value: 4 }, { suit: 'S', rank: 'J', value: 9 }, { suit: 'C', rank: 'J', value: 9 }]};
-    var pair = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'H', rank: 'J', value: 10 }, { suit: 'D', rank: '6', value: 5 }, { suit: 'S', rank: 'K', value: 12 }, { suit: 'C', rank: 'K', value: 12 }];
-    var highCard = [{ suit: 'H', rank: '5', value: 4 }, { suit: 'S', rank: '2', value: 1 }, { suit: 'S', rank: '3', value: 2 }, { suit: 'S', rank: 'J', value: 10 }, { suit: 'S', rank: '9', value: 8 }];
-
-    // console.log('royalStraightFlush: ', await rankHand(new Array(1).fill().map(u => (royalStraightFlush))));
-    // console.log('straightFlush: ', await rankHand(new Array(1).fill().map(u => (straightFlush))));
-    // console.log('FLUSH: ', await rankHand(new Array(1).fill().map(u => (flush))));
-    // // console.log('FLUSH: ', await rankHand(new Array(1).fill().map(u => (flush))));
-    // console.log('STRAIGHT: ', await rankHand(new Array(1).fill().map(u => (straight))));
-    // console.log('STRAIGHT2: ', await rankHand(new Array(1).fill().map(u => (straight2))));
-    // console.log('fullHouse: ', await rankHand(new Array(1).fill().map(u => (fullHouse))));
-    // console.log('fullHouse2: ', await rankHand(new Array(1).fill().map(u => (fullHouse2))));
-    // console.log('fourOfAKind: ', await rankHand(new Array(1).fill().map(u => (fourOfAKind))));
-    // console.log('trips: ', await rankHand(new Array(1).fill().map(u => (trips))));
-    const twoPairArr = [
-     twoPair, twoPair2
-  ];
-     console.log('twopair: ', await rankHand(twoPairArr));
-    
-    
-    // console.log('pair: ', await rankHand(new Array(1).fill().map(u => (pair))));
-    // console.log('highCard: ', await rankHand(new Array(1).fill().map(u => (highCard))));
-    //console.log('STRAIGHT 2: ', await rankHand(new Array(1).fill().map(u => (straight2))));
 
   }
   const handsNoChanged = async (e) => {
-    console.log('handsNoChanged', e);
     setHandsCount(e.target.value);
   }
-  testMethod();
+
   return (
     <div className="align-top items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <style>{css}</style>
@@ -168,7 +108,7 @@ export default function Home() {
                 <div className='inline-block mr-4 font-bold size-32 align-top '>
                   <h3 className=''>Hand {handIndex + 1}</h3>
                   <p className='text-[#c16512]'>{rankings ? (<span key={hand.key + handIndex}> {rankings.find(x => x.handRanking.key === hand.key)['handRanking'].text} </span>) : ''}</p>
-                  <p className='text-[#d90f90]'>{rankings ? (<span key={hand.key + handIndex}> {rankings.find(x => x.handRanking.key === hand.key).winner ? 'Winner!' : ''} </span>) : ''}</p>
+                  <p className='text-[#d90f90] text-2xl'>{rankings ? (<span key={hand.key + handIndex} > {rankings.find(x => x.handRanking.key === hand.key).winner ? '⇾ Winner!' : ''} </span>) : ''}</p>
 
                 </div>
                 <ul className="inline-block hand-container ">
